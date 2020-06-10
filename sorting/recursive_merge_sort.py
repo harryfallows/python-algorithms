@@ -3,6 +3,16 @@ import random
 from pydoc import locate
 
 
+def sort(unsorted_list):
+    """performs merge sort, calls split and merge
+
+    Args:
+        unsorted_list (list): original, unsorted list
+    """
+    split_unsorted_list = split(unsorted_list)
+    return merge(split_unsorted_list)
+
+
 def split(unsorted_list):
     """performs the split phase of merge sort, splits unsorted list into a list of lists, each of length 1
 
@@ -63,5 +73,4 @@ if __name__ == "__main__":
     """
     item_type_constructor = locate(sys.argv[1])
     unsorted_list = [item_type_constructor(i) for i in sys.argv[2:]]
-    split_unsorted_list = split(unsorted_list)
-    print(merge(split_unsorted_list))
+    print(sort(unsorted_list))

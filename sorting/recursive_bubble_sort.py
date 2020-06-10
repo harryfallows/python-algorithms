@@ -3,7 +3,7 @@ import random
 from pydoc import locate
 
 
-def bubblesort(unsorted_list):
+def sort(unsorted_list):
     """iterates over unsorted list, if the current item is greater than the next item they are swapped
 
     Args:
@@ -22,7 +22,7 @@ def bubblesort(unsorted_list):
             changes = True
 
     if changes:
-        return bubblesort(unsorted_list)
+        return sort(unsorted_list)
     else:
         return unsorted_list
 
@@ -35,4 +35,4 @@ if __name__ == "__main__":
     """
     item_type_constructor = locate(sys.argv[1])
     unsorted_list = [item_type_constructor(i) for i in sys.argv[2:]]
-    print(bubblesort(unsorted_list))
+    print(sort(unsorted_list))

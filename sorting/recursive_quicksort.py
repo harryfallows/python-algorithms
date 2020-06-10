@@ -3,7 +3,7 @@ import random
 from pydoc import locate
 
 
-def quicksort(unsorted_list):
+def sort(unsorted_list):
     """main driver code for the quicksort algorithm:
     1. checks if the list contains 1 or 0 items, if it does the list is already sorted so it is returned
     2. chooses a random pivot in the unsorted list
@@ -23,7 +23,7 @@ def quicksort(unsorted_list):
     pivot = unsorted_list[pivot_idx]
     new_unsorted_list = unsorted_list[:pivot_idx] + unsorted_list[pivot_idx + 1 :]
     l, r = partition(new_unsorted_list, pivot)
-    return quicksort(l) + [pivot] + quicksort(r)
+    return sort(l) + [pivot] + sort(r)
 
 
 def partition(list_to_partition, pivot):
@@ -49,4 +49,4 @@ if __name__ == "__main__":
     """
     item_type_constructor = locate(sys.argv[1])
     unsorted_list = [item_type_constructor(i) for i in sys.argv[2:]]
-    print(quicksort(unsorted_list))
+    print(sort(unsorted_list))
