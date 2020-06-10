@@ -4,65 +4,42 @@ from pydoc import locate
 
 
 def sort(unsorted_list):
-    """performs merge sort, calls split and merge
-
-    Args:
-        unsorted_list (list): original, unsorted list
-    """
-    split_unsorted_list = split(unsorted_list)
-    return merge(split_unsorted_list)
-
-
-def split(unsorted_list):
-    """performs the split phase of merge sort, splits unsorted list into a list of lists, each of length 1
+    """recursively splits the unsorted list until each sublist is of length 1, then 'merges' these splits and returns a sorted list
 
     Args:
         unsorted_list (list): the unsorted list, taken as input
 
     Returns:
-        list: list of lists (e.g. [1, 2, 3, 4] => [[1], [2], [3], [4]])
+        list: the sorted list
     """
-    return [[i] for i in unsorted_list]
+    if len(unsorted_list) <= 1:
+        return unsorted_list
+    split_point = len(unsorted_list) // 2
+    return merge(sort(unsorted_list[:split_point]), sort(unsorted_list[split_point:]))
 
 
-def merge(split_unsorted_list):
-    """performs the merge phase of merge sort, merges adjacent lists of sorted items until there exists only one list (the final sorted list)
+def merge(split_1, split_2):
+    """performs the merge phase of merge sort, takes two sorted lists and returns one sorted list
 
     Args:
-        split_unsorted_list (list): unsorted list of smaller sorted lists
+        split_1 (list): sorted list
+        split_2 (list): sorted list
 
     Returns:
         list: sorted list
     """
-    if len(split_unsorted_list) <= 1:
-        return split_unsorted_list[0]
+    merged_list = []
+    while len(split_1) != 0 and len(split_2) != 0:
+        if split_1[0] < split_2[0]:
+            merged_list.append(split_1[0])
+            split_1 = split_1[1:]
+        else:
+            merged_list.append(split_2[0])
+            split_2 = split_2[1:]
+    merged_list += split_1
+    merged_list += split_2
 
-    new_split_unsorted_list = []
-
-    for i in range(0, len(split_unsorted_list), 2):
-        split_1 = split_unsorted_list[i]
-        try:
-            split_2 = split_unsorted_list[i + 1]
-        except IndexError:
-            new_split_unsorted_list.append(split_1)
-            break
-        merged_list = []
-        while len(split_1) + len(split_2) > 0:
-            if len(split_1) == 0:
-                merged_list += split_2
-                break
-            elif len(split_2) == 0:
-                merged_list += split_1
-                break
-            if split_1[0] < split_2[0]:
-                merged_list.append(split_1[0])
-                split_1 = split_1[1:]
-            else:
-                merged_list.append(split_2[0])
-                split_2 = split_2[1:]
-        new_split_unsorted_list.append(merged_list)
-
-    return merge(new_split_unsorted_list)
+    return merged_list
 
 
 if __name__ == "__main__":
